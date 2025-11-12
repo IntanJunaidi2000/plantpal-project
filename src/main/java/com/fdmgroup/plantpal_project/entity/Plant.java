@@ -1,18 +1,30 @@
 package com.fdmgroup.plantpal_project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "plants")
 public class Plant {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "Plant nickname is required")
+    @Size(min = 2, max = 50, message = "Nickname must be between 2 and 50 characters")
     private String nickname;
+    
+    @NotBlank(message = "Species is required")
+    @Size(min = 2, max = 100, message = "Species must be between 2 and 100 characters")
     private String species;
+    
+    @NotBlank(message = "Location is required")
+    @Size(max = 100, message = "Location must be less than 100 characters")
     private String location;
     
     @ManyToOne
@@ -20,6 +32,7 @@ public class Plant {
     private User user;
 
     @OneToMany(mappedBy = "plant")
+    @JsonIgnore
     private List<CareLog> careLogs;
 
     public Plant() {
