@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service layer for User entity business logic.
@@ -88,6 +87,14 @@ public class UserService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete user: " + e.getMessage(), e);
         }
+    }
+    
+    public User authenticateUser(String email, String password) {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
     }
     
 //    @Transactional(readOnly = true)

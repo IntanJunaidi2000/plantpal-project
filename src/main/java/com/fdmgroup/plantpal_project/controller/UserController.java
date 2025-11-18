@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.fdmgroup.plantpal_project.dto.LoginRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +94,30 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    /**
+     * Login endpoint - authenticates user credentials
+     * @return User entity (without password) with 200 OK if valid, 401 UNAUTHORIZED if invalid
+     */
+    @PostMapping("/login")
+    public ResponseEntity<Object> loginUser(@RequestBody LoginRequest loginRequest) {
+        try {
+            User user = userService.authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
+            
+            if (user != null) {
+                // Return user without password (password is already WRITE_ONLY)
+                return ResponseEntity.ok(user);
+            } else {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Invalid email or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+            }
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Login failed");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
     
 //	  Debugging of User Deletion
