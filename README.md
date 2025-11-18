@@ -63,3 +63,53 @@ This project includes a data.sql file that preloads sample data into a sql datab
 
 Located in src/main/resources/data.sql
 
+## API Endpoints
+
+### Users
+- `GET /api/users` - Get all users
+- `GET /api/users/{id}` - Get user by ID
+- `POST /api/users` - Create new user
+- `PUT /api/users/{id}` - Update user
+- `DELETE /api/users/{id}` - Delete user
+
+### Plants
+- `GET /api/plants` - Get all plants
+- `GET /api/plants/{id}` - Get plant by ID
+- `POST /api/plants` - Create new plant
+- `PUT /api/plants/{id}` - Update plant
+- `DELETE /api/plants/{id}` - Delete plant
+
+### Care Logs
+- `GET /api/carelogs` - Get all care logs
+- `GET /api/carelogs/{id}` - Get care log by ID
+- `POST /api/carelogs` - Create new care log
+- `PUT /api/carelogs/{id}` - Update care log
+- `DELETE /api/carelogs/{id}` - Delete care log
+
+## Database Schema
+
+### User
+- `id`, `username`, `email`, `password`
+- One-to-Many relationship with Plants
+
+### Plant
+- `id`, `nickname`, `species`, `location`
+- Many-to-One relationship with User
+- One-to-Many relationship with CareLogs
+
+### CareLog
+- `id`, `careType`, `careDate`, `notes`
+- Many-to-One relationship with Plant
+
+## Getting Started
+1. Clone the repository
+2. Configure MySQL database in `application.properties`
+3. Run `mvn spring-boot:run`
+4. API available at `http://localhost:8080/api`
+
+## Test Data
+Sample data is automatically loaded from `src/main/resources/data.sql`
+
+---
+
+**Next Phase**: React frontend integration
