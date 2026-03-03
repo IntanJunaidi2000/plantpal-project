@@ -34,6 +34,14 @@ public class Plant {
     @OneToMany(mappedBy = "plant")
     @JsonIgnore
     private List<CareLog> careLogs;
+    
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageData;
+
+    private String imageName;
+
+    private String imageType;
 
     public Plant() {
     }
@@ -85,4 +93,30 @@ public class Plant {
     public void setCareLogs(List<CareLog> careLogs) {
         this.careLogs = careLogs;
     }
+
+	public byte[] getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+    
+    
 }
